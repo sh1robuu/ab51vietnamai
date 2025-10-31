@@ -1,0 +1,18 @@
+[theme]
+# Cấu hình theme cho ứng dụng
+primaryColor = "#FF4B4B"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F0F2F6"
+textColor = "#262730"
+font = "sans serif"
+
+[server]
+# Cấu hình server
+headless = true
+port = 8501
+enableCORS = false
+enableXsrfProtection = true
+
+[browser]
+# Tự động mở trình duyệt khi chạy
+gatherUsageStats = false
