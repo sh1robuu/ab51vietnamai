@@ -70,8 +70,26 @@ Communication style:
 """
 
 def get_gemini_model():
-    """Khởi tạo Gemini model"""
-    return genai.GenerativeModel('gemini-2.5-flash')
+    """Khởi tạo Gemini model với safety settings"""
+    safety_settings = [
+        {
+            "category": "HARM_CATEGORY_HARASSMENT",
+            "threshold": "BLOCK_ONLY_HIGH"
+        },
+        {
+            "category": "HARM_CATEGORY_HATE_SPEECH",
+            "threshold": "BLOCK_ONLY_HIGH"
+        },
+        {
+            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+            "threshold": "BLOCK_ONLY_HIGH"
+        },
+        {
+            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+            "threshold": "BLOCK_ONLY_HIGH"
+        }
+    ]
+    return genai.GenerativeModel('gemini-2.5-flash', safety_settings=safety_settings)
 
 def get_chat_filename(username):
     """Tạo tên file lưu chat history cho user"""
@@ -138,13 +156,45 @@ def get_ai_response(messages, language='vi'):
             )
         )
         
-        return response.text
+        # Kiểm tra xem response có hợp lệ không
+        if not response or not response.candidates:
+            if language == 'vi':
+                return "⚠️ Xin lỗi, không thể tạo phản hồi. Vui lòng thử lại hoặc diễn đạt câu hỏi khác."
+            else:
+                return "⚠️ Sorry, couldn't generate a response. Please try again or rephrase your question."
+        
+        # Kiểm tra finish_reason
+        candidate = response.candidates[0]
+        if candidate.finish_reason not in [1, 0]:  # 1 = STOP (success), 0 = UNSPECIFIED
+            if language == 'vi':
+                error_msg = "⚠️ Câu hỏi của bạn có thể vi phạm chính sách an toàn hoặc không được hỗ trợ.\n\n"
+                error_msg += "Vui lòng:\n"
+                error_msg += "- Diễn đạt lại câu hỏi một cách rõ ràng hơn\n"
+                error_msg += "- Tránh nội dung nhạy cảm hoặc không phù hợp\n"
+                error_msg += "- Hỏi về các chủ đề học tập và giáo dục"
+                return error_msg
+            else:
+                error_msg = "⚠️ Your question may violate safety policies or is not supported.\n\n"
+                error_msg += "Please:\n"
+                error_msg += "- Rephrase your question more clearly\n"
+                error_msg += "- Avoid sensitive or inappropriate content\n"
+                error_msg += "- Ask about educational topics"
+                return error_msg
+        
+        # Kiểm tra xem có text content không
+        if hasattr(response, 'text') and response.text:
+            return response.text
+        else:
+            if language == 'vi':
+                return "⚠️ Xin lỗi, không nhận được nội dung phản hồi. Vui lòng thử lại."
+            else:
+                return "⚠️ Sorry, no response content received. Please try again."
         
     except Exception as e:
         if language == 'vi':
-            return f"⚠️ Xin lỗi, đã có lỗi xảy ra: {str(e)}\n\nVui lòng thử lại sau."
+            return f"⚠️ Xin lỗi, đã có lỗi xảy ra: {str(e)}\n\nVui lòng thử lại sau hoặc liên hệ hỗ trợ."
         else:
-            return f"⚠️ Sorry, an error occurred: {str(e)}\n\nPlease try again later."
+            return f"⚠️ Sorry, an error occurred: {str(e)}\n\nPlease try again later or contact support."
 
 def analyze_popular_questions(username=None):
     """
