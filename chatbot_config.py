@@ -18,6 +18,45 @@ CHAT_HISTORY_DIR = Path("chat_history")
 CHAT_HISTORY_DIR.mkdir(exist_ok=True)
 
 # Context về OZA platform để AI hiểu rõ hơn
+# Universal context - AI sẽ tự động detect và reply bằng ngôn ngữ của user
+SYSTEM_CONTEXT_UNIVERSAL = """
+You are an intelligent AI assistant for OZA (OpenZone of AI) - an online learning platform.
+
+IMPORTANT: Automatically detect the user's language and respond in the SAME language they use.
+- If user writes in Vietnamese → Reply in Vietnamese
+- If user writes in English → Reply in English  
+- If user writes in other languages → Reply in that language
+
+About OZA:
+- Platform providing detailed solutions for textbooks and workbooks from Grade 1-12
+- Supporting all subjects: Math, Literature, English, Physics, Chemistry, Biology, History, Geography...
+- Focused on Vietnam Education System but open to international students
+
+Your missions:
+- Answer study questions in detail and easy to understand
+- Explain knowledge from basic to advanced levels
+- Guide effective study methods
+- Suggest appropriate materials and exercises
+- Encourage and motivate students
+- Always be friendly, patient and positive
+
+Communication style:
+- Use clear, easy-to-understand language (in user's language)
+- Explain step by step in detail
+- Use appropriate emojis for engagement
+- Provide specific examples and illustrations
+- Encourage independent thinking
+- Use language suitable for students' age
+
+Example responses:
+- Vietnamese user asks "Giải phương trình x^2 = 4" → Reply in Vietnamese
+- English user asks "Solve x^2 = 4" → Reply in English
+- User asks in any language → Reply in that same language
+
+Remember: ALWAYS match the user's language in your response.
+"""
+
+# Legacy contexts (kept for backward compatibility)
 SYSTEM_CONTEXT_VI = """
 Bạn là trợ lý AI thông minh của OZA (OpenZone of AI) - nền tảng học tập trực tuyến Việt Nam.
 
@@ -118,22 +157,65 @@ def save_chat_history(username, messages):
     except:
         return False
 
-def get_system_message(language='vi'):
-    """Lấy system message theo ngôn ngữ"""
+def get_system_message(language='auto'):
+    """
+    Lấy system message theo ngôn ngữ
+    
+    Args:
+        language: 'auto' (default) sử dụng universal context để AI tự detect,
+                 'vi' hoặc 'en' để force ngôn ngữ cụ thể (legacy)
+    """
+    if language == 'auto':
+        return SYSTEM_CONTEXT_UNIVERSAL
     return SYSTEM_CONTEXT_VI if language == 'vi' else SYSTEM_CONTEXT_EN
 
-def get_ai_response(messages, language='vi'):
+def detect_user_language(messages):
+    """
+    Detect ngôn ngữ của user từ messages history
+    
+    Args:
+        messages: List các message trong cuộc hội thoại
+    
+    Returns:
+        'vi' nếu phát hiện tiếng Việt, 'en' nếu tiếng Anh, 'en' là default
+    """
+    if not messages:
+        return 'en'
+    
+    # Lấy tin nhắn cuối cùng từ user
+    user_messages = [msg for msg in messages if msg.get('role') == 'user']
+    if not user_messages:
+        return 'en'
+    
+    last_message = user_messages[-1].get('content', '')
+    
+    # Simple detection: check for Vietnamese characters
+    vietnamese_chars = ['ă', 'â', 'ê', 'ô', 'ơ', 'ư', 'đ', 'á', 'à', 'ả', 'ã', 'ạ',
+                       'é', 'è', 'ẻ', 'ẽ', 'ẹ', 'í', 'ì', 'ỉ', 'ĩ', 'ị',
+                       'ó', 'ò', 'ỏ', 'õ', 'ọ', 'ú', 'ù', 'ủ', 'ũ', 'ụ', 'ý', 'ỳ', 'ỷ', 'ỹ', 'ỵ']
+    
+    for char in vietnamese_chars:
+        if char in last_message.lower():
+            return 'vi'
+    
+    return 'en'
+
+def get_ai_response(messages, language='auto'):
     """
     Gọi Google Gemini API để lấy response
     
     Args:
         messages: List các message trong cuộc hội thoại
-        language: Ngôn ngữ ('vi' hoặc 'en')
+        language: 'auto' (default) - AI tự động detect và trả lời bằng ngôn ngữ của user
+                 'vi' hoặc 'en' - Force ngôn ngữ cụ thể
     
     Returns:
         str: Response từ AI
     """
     try:
+        # Detect ngôn ngữ từ messages để trả error message phù hợp
+        detected_lang = detect_user_language(messages) if language == 'auto' else language
+        
         model = get_gemini_model()
         
         # Tạo prompt với system context và conversation history
@@ -158,7 +240,7 @@ def get_ai_response(messages, language='vi'):
         
         # Kiểm tra xem response có hợp lệ không
         if not response or not response.candidates:
-            if language == 'vi':
+            if detected_lang == 'vi':
                 return "⚠️ Xin lỗi, không thể tạo phản hồi. Vui lòng thử lại hoặc diễn đạt câu hỏi khác."
             else:
                 return "⚠️ Sorry, couldn't generate a response. Please try again or rephrase your question."
@@ -166,7 +248,7 @@ def get_ai_response(messages, language='vi'):
         # Kiểm tra finish_reason
         candidate = response.candidates[0]
         if candidate.finish_reason not in [1, 0]:  # 1 = STOP (success), 0 = UNSPECIFIED
-            if language == 'vi':
+            if detected_lang == 'vi':
                 error_msg = "⚠️ Câu hỏi của bạn có thể vi phạm chính sách an toàn hoặc không được hỗ trợ.\n\n"
                 error_msg += "Vui lòng:\n"
                 error_msg += "- Diễn đạt lại câu hỏi một cách rõ ràng hơn\n"
@@ -185,13 +267,15 @@ def get_ai_response(messages, language='vi'):
         if hasattr(response, 'text') and response.text:
             return response.text
         else:
-            if language == 'vi':
+            if detected_lang == 'vi':
                 return "⚠️ Xin lỗi, không nhận được nội dung phản hồi. Vui lòng thử lại."
             else:
                 return "⚠️ Sorry, no response content received. Please try again."
         
     except Exception as e:
-        if language == 'vi':
+        # Detect language for error message
+        detected_lang = detect_user_language(messages) if language == 'auto' else language
+        if detected_lang == 'vi':
             return f"⚠️ Xin lỗi, đã có lỗi xảy ra: {str(e)}\n\nVui lòng thử lại sau hoặc liên hệ hỗ trợ."
         else:
             return f"⚠️ Sorry, an error occurred: {str(e)}\n\nPlease try again later or contact support."

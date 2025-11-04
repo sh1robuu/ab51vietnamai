@@ -128,8 +128,8 @@ def ai_helper_dialog():
                 # Tạo messages list theo format của chatbot_config
                 messages = [{"role": "user", "content": prompt}]
                 
-                # Gọi AI
-                response = chatbot_config.get_ai_response(messages, language='vi')
+                # Gọi AI - sử dụng auto để AI tự detect ngôn ngữ
+                response = chatbot_config.get_ai_response(messages, language='auto')
                 
                 st.markdown("### 📝 Câu trả lời:")
                 st.markdown(response)
@@ -165,8 +165,8 @@ def ai_helper_dialog():
                 # Create messages list according to chatbot_config format
                 messages = [{"role": "user", "content": prompt}]
                 
-                # Call AI
-                response = chatbot_config.get_ai_response(messages, language='en')
+                # Call AI - use auto to let AI detect language
+                response = chatbot_config.get_ai_response(messages, language='auto')
                 
                 st.markdown("### 📝 Answer:")
                 st.markdown(response)
@@ -1843,9 +1843,10 @@ def chatbot():
         # Gọi OpenAI API để lấy response
         with st.chat_message("assistant"):
             with st.spinner("🤔 Đang suy nghĩ..." if st.session_state.language == 'vi' else "🤔 Thinking..."):
+                # Sử dụng 'auto' để AI tự detect ngôn ngữ từ câu hỏi của user
                 response = chatbot_config.get_ai_response(
                     st.session_state.messages,
-                    st.session_state.language
+                    language='auto'
                 )
             
             st.markdown(response)
@@ -1906,10 +1907,10 @@ def chatbot():
         # Thêm vào messages
         st.session_state.messages.append({"role": "user", "content": question})
         
-        # Get AI response
+        # Get AI response - use auto để AI tự detect ngôn ngữ
         response = chatbot_config.get_ai_response(
             st.session_state.messages,
-            st.session_state.language
+            language='auto'
         )
         st.session_state.messages.append({"role": "assistant", "content": response})
         
