@@ -264,19 +264,48 @@ def get_ai_response(messages, language='auto'):
         # Kiểm tra finish_reason
         candidate = response.candidates[0]
         if candidate.finish_reason not in [1, 0]:  # 1 = STOP (success), 0 = UNSPECIFIED
+            # Nếu bị block, thử retry với prompt đơn giản hơn
+            if candidate.finish_reason in [3, 4]:  # 3 = SAFETY, 4 = RECITATION
+                try:
+                    # Lấy câu hỏi cuối cùng từ user
+                    user_messages = [msg for msg in messages if msg.get('role') == 'user']
+                    if user_messages:
+                        last_question = user_messages[-1].get('content', '')
+                        
+                        # Retry với prompt đơn giản hơn, không có system context phức tạp
+                        simple_prompt = f"As an educational AI assistant, please answer this student's question:\n\n{last_question}"
+                        
+                        retry_response = model.generate_content(
+                            simple_prompt,
+                            generation_config=genai.types.GenerationConfig(
+                                temperature=0.7,
+                                max_output_tokens=2000,
+                            )
+                        )
+                        
+                        if retry_response and retry_response.candidates:
+                            retry_candidate = retry_response.candidates[0]
+                            if retry_candidate.finish_reason in [1, 0] and hasattr(retry_response, 'text') and retry_response.text:
+                                return retry_response.text
+                except:
+                    pass  # Nếu retry fail, tiếp tục với error message bên dưới
+            
+            # Nếu vẫn không được, trả về error message thân thiện hơn
             if detected_lang == 'vi':
-                error_msg = "⚠️ Câu hỏi của bạn có thể vi phạm chính sách an toàn hoặc không được hỗ trợ.\n\n"
-                error_msg += "Vui lòng:\n"
-                error_msg += "- Diễn đạt lại câu hỏi một cách rõ ràng hơn\n"
-                error_msg += "- Tránh nội dung nhạy cảm hoặc không phù hợp\n"
-                error_msg += "- Hỏi về các chủ đề học tập và giáo dục"
+                error_msg = "⚠️ Xin lỗi, tôi gặp khó khăn trong việc trả lời câu hỏi này.\n\n"
+                error_msg += "💡 Bạn có thể thử:\n"
+                error_msg += "- Diễn đạt câu hỏi theo cách khác\n"
+                error_msg += "- Chia nhỏ câu hỏi thành các phần cụ thể hơn\n"
+                error_msg += "- Cung cấp thêm ngữ cảnh về câu hỏi của bạn\n\n"
+                error_msg += "Tôi luôn sẵn sàng giúp bạn với các câu hỏi học tập! 😊"
                 return error_msg
             else:
-                error_msg = "⚠️ Your question may violate safety policies or is not supported.\n\n"
-                error_msg += "Please:\n"
-                error_msg += "- Rephrase your question more clearly\n"
-                error_msg += "- Avoid sensitive or inappropriate content\n"
-                error_msg += "- Ask about educational topics"
+                error_msg = "⚠️ Sorry, I'm having difficulty answering this question.\n\n"
+                error_msg += "💡 You can try:\n"
+                error_msg += "- Rephrasing your question in a different way\n"
+                error_msg += "- Breaking down the question into more specific parts\n"
+                error_msg += "- Providing more context about your question\n\n"
+                error_msg += "I'm always here to help with your learning questions! 😊"
                 return error_msg
         
         # Kiểm tra xem có text content không

@@ -2110,13 +2110,6 @@ def about():
         
         **OZA (OpenZone of AI)** là nền tảng mở về Trí tuệ nhân tạo, được phát triển bởi **AB-51 Team**.
         
-        ### Sứ mệnh
-        
-        Chúng tôi cam kết:
-        - Mang AI đến gần hơn với mọi người
-        - Cung cấp kiến thức và công cụ AI chất lượng
-        - Xây dựng cộng đồng AI mở và thân thiện
-        - Thúc đẩy đổi mới sáng tạo trong lĩnh vực AI
         
         ### AB-51 Team
         
@@ -2131,14 +2124,6 @@ def about():
         ### About OZA - OpenZone of AI
         
         **OZA (OpenZone of AI)** is an open platform for Artificial Intelligence, developed by **AB-51 Team**.
-        
-        ### Mission
-        
-        We are committed to:
-        - Bringing AI closer to everyone
-        - Providing quality AI knowledge and tools
-        - Building an open and friendly AI community
-        - Promoting innovation in the AI field
         
         ### AB-51 Team
         
