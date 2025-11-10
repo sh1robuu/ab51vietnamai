@@ -1056,6 +1056,31 @@ def choose_grade():
                     st.info("Nội dung môn Lý đang được phát triển...")
                 if st.button("🧬 Sinh học", key="biology"):
                     st.info("Nội dung môn Sinh đang được phát triển...")
+            
+            # Nhóm Khoa học Xã hội
+            st.markdown("""
+            <div style='background-color: #fff3e0; padding: 1rem; border-radius: 10px; 
+                        border-left: 5px solid #FF9800; margin-bottom: 1rem; margin-top: 1.5rem;'>
+                <h3 style='color: #F57C00; margin: 0;'>📚 Khoa học Xã hội</h3>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("📖 Ngữ văn", key="literature"):
+                    st.session_state.selected_subject = "literature"
+                    st.rerun()
+                if st.button("🏛️ Lịch sử", key="history"):
+                    st.info("Nội dung môn Sử đang được phát triển...")
+                if st.button("⚖️ Giáo dục công dân", key="civics"):
+                    st.info("Nội dung môn GDCD đang được phát triển...")
+            with col2:
+                if st.button("🌍 Địa lý", key="geography"):
+                    st.info("Nội dung môn Địa đang được phát triển...")
+                if st.button("💼 Kinh tế & Pháp luật", key="economics_law"):
+                    st.info("Nội dung môn Kinh tế & Pháp luật đang được phát triển...")
+                if st.button("🌐 Tiếng Anh", key="english"):
+                    st.info("Nội dung môn Tiếng Anh đang được phát triển...")
         
         else:
             # English version - Natural Sciences
@@ -1078,6 +1103,31 @@ def choose_grade():
                     st.info("Physics content is under development...")
                 if st.button("🧬 Biology", key="biology"):
                     st.info("Biology content is under development...")
+            
+            # Social Sciences Group
+            st.markdown("""
+            <div style='background-color: #fff3e0; padding: 1rem; border-radius: 10px; 
+                        border-left: 5px solid #FF9800; margin-bottom: 1rem; margin-top: 1.5rem;'>
+                <h3 style='color: #F57C00; margin: 0;'>📚 Social Sciences</h3>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("📖 Literature", key="literature"):
+                    st.session_state.selected_subject = "literature"
+                    st.rerun()
+                if st.button("🏛️ History", key="history"):
+                    st.info("History content is under development...")
+                if st.button("⚖️ Civic Education", key="civics"):
+                    st.info("Civic Education content is under development...")
+            with col2:
+                if st.button("🌍 Geography", key="geography"):
+                    st.info("Geography content is under development...")
+                if st.button("💼 Economics & Law", key="economics_law"):
+                    st.info("Economics & Law content is under development...")
+                if st.button("🌐 English", key="english"):
+                    st.info("English content is under development...")
         
         # Footer
         st.divider()
@@ -1238,7 +1288,8 @@ def show_subject_content():
     
     # Header
     subject_names = {
-        'math': {'vi': '📐 Toán học', 'en': '📐 Mathematics'}
+        'math': {'vi': '📐 Toán học', 'en': '📐 Mathematics'},
+        'literature': {'vi': '📖 Ngữ văn', 'en': '📖 Literature'}
     }
     
     subject_name = subject_names.get(subject, {'vi': 'Môn học', 'en': 'Subject'})[st.session_state.language]
@@ -1752,6 +1803,290 @@ def show_subject_content():
             
             st.divider()
             st.info("💡 More lessons are being updated...")
+    
+    # Nội dung môn Ngữ văn lớp 10
+    elif subject == 'literature' and grade == 10:
+        if st.session_state.language == 'vi':
+            st.markdown("### 📚 Bài 1: Thần thoại và sử thi")
+            
+            # Bài 1.1: Hê-ra-clét đi tìm táo vàng
+            with st.expander("📖 **Bài 1.1: Hê-ra-clét đi tìm táo vàng**", expanded=False):
+                st.markdown("""
+                #### I. TÌM HIỂU CHUNG
+                
+                ##### 1. Đặc điểm của thần thoại
+                
+                - **Thần thoại** là thể loại ra đời sớm nhất trong lịch sử truyện kể dân gian.
+                
+                - Có nội dung hoang đường, tưởng tượng về các vị thần và những nhân vật sáng tạo ra thế giới.
+                
+                - Thường phản ánh quan niệm về vũ trụ và nhân sinh của người xưa.
+                
+                - Có vai trò quan trọng trong việc lưu giữ di sản văn hóa nguyên thủy của cộng đồng.
+                
+                - Không gian trong thần thoại thường là vũ trụ hoang sơ, có khi chia thành ba cõi: **trời - đất - nước**.
+                
+                - Cốt truyện thường là chuỗi sự kiện được sắp xếp theo trình tự thời gian.
+                
+                - Nhân vật trong thần thoại thường có ngoại hình và tài năng phi thường, có khả năng biến hóa khôn lường.
+                
+                ---
+                
+                ##### 2. Từ khó
+                
+                - **Bấy yếu:** sức lực non yếu, ý nói thiếu sức mạnh, khó chịu đựng được khó khăn, thử thách.
+                
+                ---
+                
+                ##### 3. Tóm tắt văn bản
+                
+                Câu chuyện kể về hành trình đi tìm táo vàng của người anh hùng **Hê-ra-clét** theo lệnh của nhà vua O-ri-xtê. 
+                
+                Hê-ra-clét đã vượt qua nhiều thử thách như:
+                - Băng qua cực bắc
+                - Băng qua sa mạc
+                - Chiến đấu với gã khổng lồ độc ác **Ăng-tê** để tìm cây táo vàng của nữ thần đất Gai-a
+                
+                Khi chàng cũng tới được vùng núi Cô-ca-doơ đã cứu được thần **Prô-mê-tê** đang bị thần Dớt trừng phạt. 
+                
+                Để trả ơn, thần Prô-mê-tê đã nói cho Hê-ra-clét biết, muốn lấy được táo vàng, phải nhờ thần **At-lát**. 
+                
+                Thần Át-lát lúc này đang phải khom lưng đỡ bầu trời. Hê-ra-clét ghé vai gánh giúp bầu trời cho thần Át-lát để thần đi lấy giúp táo vàng. 
+                
+                Lấy được táo vàng về, thần Át-lát toan lừa Hê-ra-clét gánh luôn bầu trời giúp mình, nhưng Hê-ra-clét nhanh trí đã nhận ra âm mưu ấy và tương kế tựu kế, thoát khỏi cái bẫy, mang táo vàng trở về.
+                
+                ---
+                
+                ##### 4. Bố cục
+                
+                Văn bản **Hê-ra-clét đi tìm táo vàng** có 4 phần, mỗi phần kể lại các sự việc:
+                
+                **Phần 1:** Kể về nguồn gốc và điểm đặc biệt của cây táo.
+                
+                **Phần 2:** Cuộc chiến của Hê-ra-clét với gã khổng lồ độc ác Ăng-tê.
+                
+                **Phần 3:** Giải cứu thần Prô-mê-tê.
+                
+                **Phần 4:** Hê-ra-clét tìm gặp thần Át-lát, gánh giúp bầu trời cho thần đi lấy táo.
+                
+                ---
+                
+                #### II. ĐỌC HIỂU VĂN BẢN
+                
+                ##### 1. Nhân vật Hê-ra-clét
+                
+                - Là con riêng của thần Dớt
+                
+                - Trong thần thoại Hy Lạp, **He-ra-clét** là hình tượng tiêu biểu cho sức mạnh thể chất và tinh thần của người anh hùng cổ đại với những chiến công phi thường: tiêu diệt quái vật, trừng phạt bạo chúa và những kẻ gian ác.
+                
+                - Hê-ra-clét thuộc kiểu nhân vật anh hùng, là người thường nhưng có sức mạnh "sánh tựa thần linh".
+                
+                ---
+                
+                ##### 2. Cuộc giao đấu giữa Hê-ra-clét với Ăng-tê
+                
+                - **Ăng-tê** có bùa hộ mệnh nên mặc dù bị Hê-ra-clét quật ngã đến ba lần nhưng vẫn còn sống.
+                
+                - Hê-ra-clét đã nhanh trí tìm ra sơ hở rồi nhấc bổng Ăng-tê lên cho lìa khỏi mặt đất rồi chàng xoay ngược đầu Ăng-tê xuống.
+                
+                - Kết quả lần này thì Ăng-tê chết thật, "chết không cách gì cứu vãn được".
+                
+                ---
+                
+                ##### 3. Các yếu tố hoang đường, tưởng tượng
+                
+                **Những nhân vật hoang đường:**
+                - Thần đất
+                - Rồng trăm đầu
+                - Thần chiến tranh
+                - Thần biển
+                - Gã khổng lồ Ăng-tê
+                - Thần Prô-mê-tê
+                - Thần Át-lát
+                
+                **Những chi tiết hoang đường:**
+                - Gã khổng lồ Ăng-tê mỗi lần ngã xuống đất được thần đất tiếp thêm cho sức mạnh
+                - Lá gan của thần Prô-mê-tê bị chim moi lại mọc lại được
+                - Thần Át-lát có thế đỡ cả bầu trời
+                - Hê-ra-clét cũng có thể đỡ được bầu trời như thần Át-lát
+                
+                **Tác dụng:** Làm cho câu chuyện thêm li kì, hấp dẫn; tăng thêm sức mạnh của nhân vật đồng thời tăng tính thử thách cho người anh hùng, từ đó góp phần tô đậm thêm chiến công vẻ vang của người anh hùng Hê-ra-clét.
+                
+                ---
+                
+                #### III. TỔNG KẾT
+                
+                ##### 1. Về nội dung
+                
+                Đoạn trích phản ánh **nhận thức và cách lí giải** của con người thời cổ đại về:
+                - Nguồn gốc của loài người
+                - Nguồn gốc của lửa
+                
+                ---
+                
+                ##### 2. Về nghệ thuật
+                
+                - Cách xây dựng nhân vật độc đáo, mang đặc trưng của thể loại thần thoại
+                
+                - Hình tượng nhân vật tiêu biểu, điển hình
+                
+                - Văn phong, cách diễn đạt mạch lạc, dễ hiểu, phù hợp với thể loại thần thoại
+                
+                - Ngôn từ thuần Việt, dễ hiểu
+                
+                ---
+                
+                ##### 3. Ý nghĩa
+                
+                Tác phẩm ca ngợi:
+                - ✨ **Sự dũng cảm**
+                - 💪 **Sức mạnh phi thường**
+                - 🎯 **Tinh thần đầy quyết tâm** của con người
+                - 🧠 **Trí tuệ và sự nhanh nhẹn** trong giải quyết vấn đề
+                
+                Thông điệp: Với lòng dũng cảm, trí tuệ và sự kiên trì, con người có thể vượt qua mọi thử thách.
+                
+                ---
+                
+                #### IV. BÀI TẬP VÀ GỢI Ý
+                
+                ##### Bài tập mẫu
+                
+                **Đề bài:** Dựa vào thông điệp về sự dũng cảm, sức mạnh phi thường và tinh thần đầy quyết tâm của con người trong văn bản Hê-ra-clét đi tìm táo vàng hãy viết đoạn văn nêu cảm nhận của em về lòng dũng cảm.
+                
+                ---
+                
+                ##### Gợi ý làm bài
+                
+                **Lòng dũng cảm** là một trong những yếu tố quan trọng nhất giúp con người vượt qua khó khăn mà không sợ nguy hiểm, thử thách. 
+                
+                Người có lòng dũng cảm sẽ:
+                - Dám đương đầu với thử thách
+                - Dám dấn thân vì mục tiêu
+                - Không bỏ cuộc trước khó khăn
+                
+                Lòng dũng cảm giúp ta:
+                - Khám phá những điều mới lạ, bổ ích
+                - Làm cho cuộc sống phong phú hơn
+                - Vượt qua giới hạn bản thân
+                - Đạt được những thành công vẻ vang
+                
+                Mỗi người cũng cần tự giác rèn luyện cho mình lòng dũng cảm để:
+                - Dám đương đầu với tất cả những thách thức trong học tập
+                - Rèn luyện đạo đức, phẩm chất tốt đẹp
+                - Góp phần xây dựng xã hội tốt đẹp hơn
+                
+                💡 **Kết luận:** Lòng dũng cảm là một trong những nét đẹp trong nhân cách mà mỗi người cần giữ gìn và phát huy.
+                
+                ---
+                
+                📚 **Tham khảo:** SGK Ngữ văn 10 (Cánh diều) và [VnDoc.com](https://vndoc.com/ly-thuyet-ngu-van-10-canh-dieu-bai-1-320768)
+                """)
+            
+            st.divider()
+            
+            st.markdown("""
+            ### 📚 Tài liệu tham khảo
+            
+            Nội dung được tham khảo từ SGK Ngữ văn 10 (Cánh diều) và [VnDoc.com](https://vndoc.com/ly-thuyet-ngu-van-10-canh-dieu-bai-1-320768)
+            """)
+            
+            st.info("💡 Các bài tiếp theo đang được cập nhật...")
+        
+        else:  # English version
+            st.markdown("### 📚 Lesson 1: Mythology and Epic")
+            
+            # Lesson 1.1: Heracles' Quest for the Golden Apples
+            with st.expander("📖 **Lesson 1.1: Heracles' Quest for the Golden Apples**", expanded=False):
+                st.markdown("""
+                #### I. GENERAL UNDERSTANDING
+                
+                ##### 1. Characteristics of Mythology
+                
+                - **Mythology** is the earliest genre in the history of folk storytelling.
+                
+                - Contains fantastical and imaginative content about gods and characters who created the world.
+                
+                - Often reflects ancient people's concepts about the universe and human life.
+                
+                - Plays an important role in preserving the primitive cultural heritage of the community.
+                
+                - The space in mythology is usually the primitive universe, sometimes divided into three realms: **heaven - earth - water**.
+                
+                - The plot is usually a series of events arranged in chronological order.
+                
+                - Characters in mythology usually have extraordinary appearance and talents, with unpredictable transformation abilities.
+                
+                ---
+                
+                ##### 2. Summary
+                
+                The story tells about the journey of the hero **Heracles** to find the golden apples on the order of King Eurystheus.
+                
+                Heracles overcame many challenges such as:
+                - Crossing the far north
+                - Crossing the desert
+                - Fighting the evil giant **Antaeus** to find the golden apple tree of the earth goddess Gaia
+                
+                When he reached the Caucasus mountains, he rescued the god **Prometheus** who was being punished by Zeus.
+                
+                To repay the favor, Prometheus told Heracles that to get the golden apples, he must ask the god **Atlas**.
+                
+                Atlas was at that time bending his back to support the sky. Heracles put his shoulder to help carry the sky for Atlas so that the god could go get the golden apples.
+                
+                After getting the golden apples, Atlas tried to trick Heracles into carrying the sky permanently, but Heracles quickly realized the plot and used a counter-strategy to escape the trap and bring the golden apples back.
+                
+                ---
+                
+                #### II. TEXT ANALYSIS
+                
+                ##### 1. The Character of Heracles
+                
+                - Son of Zeus
+                
+                - In Greek mythology, **Heracles** is the typical image of the physical and mental strength of the ancient hero with extraordinary achievements: destroying monsters, punishing tyrants and evildoers.
+                
+                - Heracles is a heroic character type, a mortal but with strength "equal to the gods".
+                
+                ---
+                
+                ##### 2. Fantastic and Imaginative Elements
+                
+                **Fantastic characters:**
+                - Earth goddess
+                - Hundred-headed dragon
+                - God of war
+                - God of the sea
+                - Giant Antaeus
+                - God Prometheus
+                - God Atlas
+                
+                **Fantastic details:**
+                - Giant Antaeus gains strength from the earth each time he falls
+                - Prometheus' liver grows back after being pecked by an eagle
+                - Atlas can support the entire sky
+                - Heracles can also support the sky like Atlas
+                
+                **Purpose:** Makes the story more thrilling and attractive; increases the character's power while increasing the challenge for the hero, thereby contributing to highlighting the glorious achievements of the hero Heracles.
+                
+                ---
+                
+                #### III. CONCLUSION
+                
+                ##### Significance
+                
+                The work praises:
+                - ✨ **Courage**
+                - 💪 **Extraordinary strength**
+                - 🎯 **Determined spirit**
+                - 🧠 **Wisdom and agility** in problem-solving
+                
+                **Message:** With courage, wisdom, and perseverance, humans can overcome any challenge.
+                
+                ---
+                
+                📚 **Reference:** Vietnamese Literature 10 Textbook (Canh Dieu) and [VnDoc.com](https://vndoc.com/ly-thuyet-ngu-van-10-canh-dieu-bai-1-320768)
+                """)
     
     else:
         if st.session_state.language == 'vi':
