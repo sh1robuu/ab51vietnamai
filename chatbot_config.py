@@ -8,7 +8,7 @@ from pathlib import Path
 from datetime import datetime
 
 # Google Gemini API Key
-GEMINI_API_KEY = "AIzaSyCRf_f4cUIqgSJZWfuMqJY3YPlpIcR-ES0"
+GEMINI_API_KEY = "AIzaSyDDtJB5SL3mdn7IKLV_V_mo-4cN-o2pPAA"
 
 # Cấu hình Gemini
 genai.configure(api_key=GEMINI_API_KEY)
@@ -142,7 +142,7 @@ def get_gemini_model():
         }
     ]
     return genai.GenerativeModel(
-        'gemini-2.0-flash-exp',  # Reset về model cũ
+        'gemini-2.0-flash',  # Đổi sang gemini-2.0-flash
         safety_settings=safety_settings
     )
 

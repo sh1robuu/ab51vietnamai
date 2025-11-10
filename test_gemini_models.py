@@ -1,7 +1,7 @@
 import google.generativeai as genai
 
 # Cấu hình API key
-GEMINI_API_KEY = "AIzaSyCRf_f4cUIqgSJZWfuMqJY3YPlpIcR-ES0"
+GEMINI_API_KEY = "AIzaSyDDtJB5SL3mdn7IKLV_V_mo-4cN-o2pPAA"
 genai.configure(api_key=GEMINI_API_KEY)
 
 # List tất cả models có sẵn
