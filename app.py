@@ -2239,19 +2239,27 @@ def chatbot():
         question = st.session_state.suggested_question
         del st.session_state.suggested_question
         
-        # Thêm vào messages
+        # Thêm user message vào chat history
         st.session_state.messages.append({"role": "user", "content": question})
         
-        # Get AI response - use auto để AI tự detect ngôn ngữ
-        response = chatbot_config.get_ai_response(
-            st.session_state.messages,
-            language='auto'
-        )
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        # Hiển thị user message
+        with st.chat_message("user"):
+            st.markdown(question)
+        
+        # Hiển thị assistant response với spinner
+        with st.chat_message("assistant"):
+            with st.spinner("🤔 Đang suy nghĩ..." if st.session_state.language == 'vi' else "🤔 Thinking..."):
+                # Get AI response - use auto để AI tự detect ngôn ngữ
+                response = chatbot_config.get_ai_response(
+                    st.session_state.messages,
+                    language='auto'
+                )
+            
+            st.markdown(response)
+            st.session_state.messages.append({"role": "assistant", "content": response})
         
         # Save and rerun
         chatbot_config.save_chat_history(current_user, st.session_state.messages)
-        st.rerun()
 
 def feedback():
     """Trang Feedback - Thu thập ý kiến đóng góp từ người dùng"""
