@@ -8,7 +8,7 @@ from pathlib import Path
 from datetime import datetime
 
 # Google Gemini API Key
-GEMINI_API_KEY = "AIzaSyDDtJB5SL3mdn7IKLV_V_mo-4cN-o2pPAA"
+GEMINI_API_KEY = "AIzaSyCRf_f4cUIqgSJZWfuMqJY3YPlpIcR-ES0"
 
 # Cấu hình Gemini
 genai.configure(api_key=GEMINI_API_KEY)
