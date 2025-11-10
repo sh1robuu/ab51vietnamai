@@ -142,7 +142,7 @@ def get_gemini_model():
         }
     ]
     return genai.GenerativeModel(
-        'gemini-1.5-flash',  # Đổi sang model có quota cao hơn
+        'models/gemini-1.5-flash',  # Thêm prefix models/
         safety_settings=safety_settings
     )
 
